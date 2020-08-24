@@ -80,3 +80,6 @@ We also use ndb.key values in put() function, which helps to retrieve the same e
 10.	By comparing two or more electric vehicles user can see the cons and pros of the compared vehicles. Green values show the highest or good and red shows the lowest bad, which are easily distinguish while comparing.
 11.	User can also see the electric vehicle stored on the database on the main page after login.
 12.	This helps the user to find the desired vehicle if the stored list is small.
+
+
+Liscence ©yadavpuneet
