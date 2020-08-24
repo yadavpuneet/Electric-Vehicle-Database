@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add EV</title>
+    <a href="/">HOME</a>
+    <link type="text/css" rel="stylesheet" href="/styles.css">
+</head>
+<body bgcolor="#f8f8ff">
+
+<form onsubmit="return compare()" action="/compare" method="post">
+    <table border="1" cellpadding="5px"
+           style="border-collapse: collapse; display: block; overflow-x: auto; white-space: nowrap;">
+        <tr>
+            {% for ev in evs %}
+            <td>
+                <div>
+                    <table>
+                        <tr>
+                            <td>
+                                {% if ev in compare %}
+                                <input type="checkbox" name="{{ ev.key.urlsafe() }}" checked="checked">
+                                {% else %}
+                                <input type="checkbox" name="{{ ev.key.urlsafe() }}">
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ ev.name }} - {{ ev.manufacturer}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            {% endfor %}
+        </tr>
+    </table>
+    <input type="submit" value="Compare">
+</form>
+
+{% if compare %}
+
+
+<table border="1" cellpadding="5px"
+       style="border-collapse: collapse; display: block; overflow-x: auto; white-space: nowrap;">
+    <tr>
+        <th align="left">
+            Name
+        </th>
+        {% for c in compare %}
+        <td>
+            <a href="/details?id={{ c.key.urlsafe() }}">{{ c.name }}</a>
+        </td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <th align="left">
+            Manufacturer
+        </th>
+        {% for c in compare %}
+        <td>
+            {{ c.manufacturer }}
+        </td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <th align="left">
+            Rating
+        </th>
+        {% for c in compare %}
+        {% if c.ratings|count <= 0 %}
+        {% set r = 0 %}
+        {% else %}
+        {% set r = c.ratings|sum / c.ratings|count %}
+        {% endif %}
+        <td {% if r== maxs[
+        'rating'] %} bgcolor="#00FF00" {% elif r == mins['rating'] %} bgcolor="#FF0000" {% endif %}>
+        {{ r }}
+        </td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <th align="left">
+            Year
+        </th>
+        {% for c in compare %}
+        <td>
+            {{ c.year }}
+        </td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <th align="left">
+            Battery (kWh)
+        </th>
+        {% for c in compare %}
+        <td {% if c.battery== maxs[
+        'battery'] %} bgcolor="#00FF00" {% elif c.battery == mins['battery'] %} bgcolor="#FF0000" {% endif %}>
+        {{ c.battery }}
+        </td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <th align="left">
+            WLTP (km)
+        </th>
+        {% for c in compare %}
+        <td {% if c.wltp== maxs[
+        'wltp'] %} bgcolor="#00FF00" {% elif c.wltp == mins['wltp'] %} bgcolor="#FF0000" {% endif %}>
+        {{ c.wltp }}
+        </td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <th align="left">
+            Power (kW)
+        </th>
+        {% for c in compare %}
+        <td {% if c.power== maxs[
+        'power'] %} bgcolor="#00FF00" {% elif c.power == mins['power'] %} bgcolor="#FF0000" {% endif %}>
+        {{ c.power }}
+        </td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <th align="left">
+            Cost (€)
+        </th>
+        {% for c in compare %}
+
+        <td {% if c.cost== maxs[
+        'cost'] %} bgcolor="#FF0000" {% elif c.cost == mins['cost'] %} bgcolor="#00FF00" {% endif %}>
+        {{ c.cost }}
+        </td>
+        {% endfor %}
+    </tr>
+
+
+</table>
+
+{% endif %}
+
+
+</body>
+
+<script type="text/javascript">
+    function compare() {
+        var inputs = document.querySelectorAll("input[type='checkbox']");
+        var count = 0;
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].checked === true)
+                count++;
+        }
+        if (count > 1)
+            return true;
+        else {
+            alert("select at least 2 vehicles");
+            return false;
+        }
+    }
+</script>
+</html>

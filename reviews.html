@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reviews - {{ ev.name }}</title>
+    <link type="text/css" rel="stylesheet" href="/styles.css">
+</head>
+<body bgcolor="#f8f8ff">
+{% if user %}
+<div align="center">
+    <div class="form-div">
+        <form action="/reviews" method="post">
+            <input type="hidden" name="id" value="{{ ev.key.urlsafe() }}">
+            <textarea name="review" rows="5" maxlength="1000" placeholder="Write your review here..."
+                      required="required"></textarea>
+            <input type="number" name="rating" min="0" max="10" placeholder="How do you rate this EV from 1-10?"
+                   required="required">
+            <input type="submit" value="Submit">
+        </form>
+        <p id="success" style="visibility: hidden;">
+            <span style="color: green; ">Review added to database successfully!</span>
+        </p>
+    </div>
+</div>
+{% endif %}
+{% set l = ev.reviews|length %}
+
+<br/><br/>
+<table width="100%" border="1" style="border-collapse: collapse" cellpadding="10px">
+    <tr>
+        <th>
+            Ratings
+        </th>
+        <th>
+            Reviews
+        </th>
+    </tr>
+    {% for r in ev.reviews %}
+    <tr>
+        <td>
+            {{ ev.ratings[l-loop.index] }}
+        </td>
+        <td>
+            {{ ev.reviews[l-loop.index] }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% if report %}
+{% if report == 1 %}
+<script type="text/javascript">
+    document.getElementsByName('review')[0].onblur = function () {
+        document.getElementById("success").style = "visibility: hidden;"
+    };
+    document.getElementById("success").style = "visibility: visible;"
+</script>
+<script type="text/javascript">
+       function goBack() {
+    window.history.go(-1)
+}
+</script>
+{% endif %}
+{% endif %}
+</body>
+
+
+</html>

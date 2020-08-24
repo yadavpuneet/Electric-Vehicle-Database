@@ -1,0 +1,57 @@
+.form-div {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    display: inline-block;
+    padding: 20px;
+    box-shadow: 5px 10px 18px lightgrey;
+    min-width: 30%;
+    max-width: 500px;
+    background: whitesmoke;
+}
+
+input:not([type=submit]):not([type=button]):not([type=checkbox]) {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    font-style: italic;
+}
+
+textarea {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    font-style: italic;
+}
+
+input:not([type=submit]):not([type=button]):not([type=checkbox]):focus {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    font-style: italic;
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+    border: 1px solid rgba(81, 203, 238, 1);
+}
+
+.profile-hover {
+    display: none;
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    border: 1px solid #333;
+    background: #eee;
+    text-align: center;
+}
+
+.tt:hover + div {
+    display: block;
+}
+
+input[type=submit], input[type=button] {
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}

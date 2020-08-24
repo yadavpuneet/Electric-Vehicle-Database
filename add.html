@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add EV</title>
+    <link type="text/css" rel="stylesheet" href="/styles.css">
+</head>
+<body bgcolor="#f8f8ff">
+
+{% if user %}
+<div align="center">
+    <div class="form-div">
+        <a href="/">HOME</a>
+        <h3>Adding A New EV</h3>
+        <form method="post" action="/add">
+            <input type="text" id="name" name="name" value="{{ params.get('name') }}" required="required"
+                   placeholder="Name"/><br/>
+            <input type="text" name="manufacturer" value="{{ params.get('manufacturer') }}" required="required"
+                   placeholder="Manufacturer"/><br/>
+            <input type="number" name="year" value="{{ params.get('year') }}" required="required"
+                   placeholder="Year of manufacture" min="1800" max="2100"/><br/>
+            <input type="number" name="battery" value="{{ params.get('battery') }}" required="required"
+                   placeholder="Battery capacity (kWh)"/><br/>
+            <input type="number" name="wltp" value="{{ params.get('wltp') }}" required="required"
+                   placeholder="WLTP (km)"/><br/>
+            <input type="number" name="power" value="{{ params.get('power') }}" required="required"
+                   placeholder="Power (kW)"/><br/>
+            <input type="number" name="cost" value="{{ params.get('cost') }}" required="required" placeholder="Cost (€)"
+                   step=".01"/><br/>
+            <input type="submit" value="Submit">
+            <p id="error" style="visibility: hidden;">
+                <span style="color: red; ">Error! Duplicate name. Please choose another name and try again.</span>
+            </p>
+            <p id="success" style="visibility: hidden;">
+                <span style="color: green; ">EV added to database successfully!</span>
+            </p>
+        </form>
+    </div>
+    <br/>
+</div>
+{% endif %}
+
+{% if report %}
+{% if report == '1' %}
+<script type="text/javascript">
+    document.getElementsByName('name')[0].onblur = function () {
+        document.getElementById("success").style = "visibility: hidden;"
+    };
+    document.getElementById("success").style = "visibility: visible;"
+</script>
+{% endif %}
+{% if report == '2' %}
+<script type="text/javascript">
+    document.getElementsByName('name')[0].style = "box-shadow: 0 0 5px red;border: 1px solid red;";
+    document.getElementsByName('name')[0].onblur = function () {
+        this.style = "";
+        document.getElementById("error").style = "visibility: hidden;"
+    };
+    document.getElementById("error").style = "visibility: visible;"
+
+</script>
+{% endif %}
+{% endif %}
+
+
+</body>
+</html>

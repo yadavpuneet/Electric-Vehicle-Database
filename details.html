@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add EV</title>
+    <link type="text/css" rel="stylesheet" href="/styles.css">
+</head>
+<body bgcolor="#f8f8ff">
+
+{% if not user %}
+{% set readonly='readonly="readonly"' %}
+{% set disabled='disabled="disabled"' %}
+{% else %}
+{% set readonly='' %}
+{% set disabled='' %}
+{% endif %}
+
+<div align="center">
+    <div class="form-div">
+        <h3>EV Details</h3>
+        <form method="post" action="/update">
+            <input type="hidden" name="id" value="{{ ev.key.urlsafe() }}"/>
+            <table width="100%">
+                <tr>
+                    <td width="100px">
+                        Name:
+                    </td>
+                    <td>
+                        <input type="text" id="name" name="name" value="{{ ev.name }}" required="required"
+                               placeholder="Name" {{ readonly }}/>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100px">
+                        Manufacturer:
+                    </td>
+                    <td>
+                        <input type="text" name="manufacturer" value="{{ ev.manufacturer }}" required="required"
+                               placeholder="Manufacturer" {{ readonly }}/><br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100px">
+                        Year:
+                    </td>
+                    <td>
+                        <input type="number" name="year" value="{{ ev.year }}" required="required"
+                               placeholder="Year of manufacture" min="1800" max="2100" {{ readonly }}/><br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100px">
+                        Battery (kWh):
+                    </td>
+                    <td>
+                        <input type="number" name="battery" value="{{ ev.battery }}" required="required"
+                               placeholder="Battery capacity (kWh)" {{ readonly }}/><br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100px">
+                        WLTP (km):
+                    </td>
+                    <td>
+                        <input type="number" name="wltp" value="{{ ev.wltp }}" required="required"
+                               placeholder="WLTP (km)" {{ readonly }}/><br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100px">
+                        Power (kW):
+                    </td>
+                    <td>
+                        <input type="number" name="power" value="{{ ev.power }}" required="required"
+                               placeholder="Power (kW)" {{ readonly }}/><br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100px">
+                        Cost (€):
+                    </td>
+                    <td>
+                        <input type="number" name="cost" value="{{ ev.cost }}" required="required"
+                               placeholder="Cost (€)" step=".01" {{ readonly }}/><br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100px">
+                        Rating:
+                    </td>
+                    <td>
+                        {% if ev.ratings|count <= 0 %}
+                        {% set r = '-' %}
+                        {% else %}
+                        {% set r = ev.ratings|sum / ev.ratings|count %}
+                        {% endif %}
+                        <input type="text" value="{{ r }}"
+                               disabled/><br/>
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="Update" {{ disabled }}>
+            <a href="/delete?id={{ ev.key.urlsafe() }}">
+                <input type="button" value="Delete" {{ disabled }}>
+            </a>
+            <a href="/reviews?id={{ ev.key.urlsafe() }}">
+                <input type="button" value="Reviews">
+            </a>
+            <p id="error" style="visibility: hidden;">
+                <span style="color: red; ">Error! Duplicate name. Please choose another name and try again.</span>
+            </p>
+            <p id="success" style="visibility: hidden;">
+                <span style="color: green; ">EV updated in database successfully!</span>
+            </p>
+        </form>
+    </div>
+    <br/>
+</div>
+
+<br/><br/>
+
+{% if ev.ratings %}
+{% set l = ev.reviews|length %}
+<table width="100%" border="1" style="border-collapse: collapse" cellpadding="10px">
+    <tr>
+        <th>
+            Ratings
+        </th>
+        <th>
+            Reviews
+        </th>
+    </tr>
+    {% for r in ev.reviews %}
+    <tr>
+        <td>
+            {{ ev.ratings[l-loop.index] }}
+        </td>
+        <td>
+            {{ ev.reviews[l-loop.index] }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+
+{% if report %}
+{% if report == '1' %}
+<script type="text/javascript">
+    document.getElementsByName('name')[0].onblur = function () {
+        document.getElementById("success").style = "visibility: hidden;"
+    };
+    document.getElementById("success").style = "visibility: visible;"
+</script>
+{% endif %}
+{% if report == '2' %}
+<script type="text/javascript">
+    document.getElementsByName('name')[0].style = "box-shadow: 0 0 5px red;border: 1px solid red;";
+    document.getElementsByName('name')[0].onblur = function () {
+        this.style = "";
+        document.getElementById("error").style = "visibility: hidden;"
+    };
+    document.getElementById("error").style = "visibility: visible;"
+
+</script>
+{% endif %}
+{% endif %}
+
+
+</body>
+</html>

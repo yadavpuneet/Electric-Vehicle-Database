@@ -1,0 +1,20 @@
+<div align="center">
+    <div class="form-div">
+        <table width="100%" cellspacing="20px">
+            <tr>
+                <th align="right" width="10px"> Sl.</th>
+                <th align="left"> Item</th>
+            </tr>
+            {% for r in evs %}
+            <tr>
+                <td align="right">
+                    {{ loop.index }}.
+                </td>
+                <td align="left">
+                    <a href="/details?id={{ r.key.urlsafe() }}">{{ r.key.get().name }}</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
