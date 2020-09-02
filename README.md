@@ -3,15 +3,18 @@
 Overview
 
 This application is based on platform as a service (PaaS) in which user can store information about different Electric Vehicles. User can add, remove and compare different vehicles stored in database. Some of these features only work when user logged in with their login ID only. 
+
 1	INTRODUCTION
 1.1	Purpose and Scope
 The purpose of this application is to store Electric vehicles according to their name, manufacturer, year, battery size, WLTP, cost and power. And compare them according to the need of user.
+
 1.2	Project Requirements
 1.	Python 2.7
 2.	Google app engine
 3.	Git Repository
 
 2	SYSTEM ARCHITECTURE
+
 1.	JINJA ENVIRONMENT:
 We use this to define a variable which we don’t want to change in our program. Since there is no concept of constant in python therefore, we use jinja environment object. The templates used in program by request handlers in jinja were organized and used with the help of loader lines. They locate in root directory in case of google app engine. 
 2.	CLASS MAIN HANDLER
